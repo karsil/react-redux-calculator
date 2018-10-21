@@ -5,19 +5,13 @@ import {connect} from 'react-redux'
 import {addDigit} from './actions/actions'
 
 class App extends Component {
-  
-  constructor(props){
-    super(props)
-    const {addDigit} = this.props;
-  }
-
   handleClick = target => {
     console.log('clicked ' + target)
   }
 
   handleDigit = digit => () => {
     console.log('handleDigit ' + digit)
-    this.props.dispatch(addDigit(digit)) // needs higher function
+    this.props.addDigit(digit) // needs higher function
   }
 
   renderDigit = i => {

@@ -6,7 +6,7 @@ export default function reducer(state = {input: "", acc: null, op: null}, {type,
         case ADD_DIGIT: {
             // do something
             console.log('ADD_DIGIT reducer: ' + payload.digit)
-            return state
+            return {...state, input: payload.digit}
         }
         default:
             return state
