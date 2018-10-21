@@ -1,7 +1,6 @@
 export const ADD_DIGIT = 'ADD_DIGIT'
 
 export const addDigit = digit => {
-    console.log('addDigit ' + digit);
     const returnValue = {
             type: ADD_DIGIT, 
             payload: {
@@ -11,11 +10,19 @@ export const addDigit = digit => {
     return returnValue
 }
 
-export const ADD_OPERATION = 'ADD_OPERATION'
+export const NEW_OPERATION = 'NEW_OPERATION'
 
-export const addOP = input => ({
-    type: ADD_OPERATION, 
+export const newOperation = input => ({
+    type: NEW_OPERATION, 
     payload: {
-        input: input
+        operationType: input
+    }
+})
+
+export const EQUAL_OPERATION = 'EQUAL_OPERATION'
+
+export const equalOperation = input => ({
+    type: EQUAL_OPERATION, 
+    payload: {
     }
 })

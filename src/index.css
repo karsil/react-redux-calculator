@@ -12,3 +12,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.infoACC {
+  float: left;
+  width: 50%;
+}
+
+.infoOP {
+  float: left;
+  width: 50%;
+}
