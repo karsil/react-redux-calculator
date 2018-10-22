@@ -2,11 +2,19 @@ import React, { Component } from 'react';
 import './App.css';
 import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux'
-import {addDigit, newOperation, equalOperation} from './actions/actions'
+import {addDigit, newOperation, equalOperation, clearOperation} from './actions/actions'
 
 class App extends Component {
+  handleKeyPress = (event) => {
+    console.log(event.key)
+  }
+
   handleClick = target => {
     console.log('clicked ' + target)
+  }
+
+  handleClear = () => () => {
+    this.props.clearOperation()
   }
 
   handleDigit = digit => () => {
@@ -30,20 +38,38 @@ class App extends Component {
   }
 
   renderOperationKey = i => {
-      return (
-        <button className="square" onClick={this.handleOperation(i)}>
-          {i}
-        </button>
-    )
+      switch(i){
+        case "+":
+        case "-":
+        case "*":
+        case "/":
+          return (
+            <button className="square" onClick={this.handleOperation(i)}>
+              {i}
+            </button>
+          )
+        case "C":
+          return (
+            <button className="square" onClick={this.handleClear()}>
+              {i}
+            </button>
+          )
+        case "=":
+          return (
+            <button className="square" onClick={this.handleEqual()}>
+              {i}
+            </button>
+          )
+        
+        default:
+          console.log("rendering unknown symbol: " + i);
+          return (
+            <button className="square" onClick={() => this.handleClick(i)}>
+              {i}
+            </button>
+          )   
+      }   
   }
-
-  renderEqualKey = i => {
-    return (
-      <button className="square" onClick={this.handleEqual()}>
-        {i}
-      </button>
-  )
-}
 
   renderKeyPad = () => {
     
@@ -70,9 +96,9 @@ class App extends Component {
       <div className="board-row">
         {this.renderOperationKey("C")}
         {this.renderDigit(0)}
-        {this.renderOperationKey(".")}
+        {this.renderDigit(".")}
         {this.renderOperationKey("/")}
-        {this.renderEqualKey("=")}
+        {this.renderOperationKey("=")}
       </div>
     </div>
     )
@@ -83,11 +109,11 @@ class App extends Component {
       <div>
         <div className="infoACC">
           <div>ACC</div>
-          {this.props.acc ? this.props.acc : " "}
+          {this.props.acc}
         </div>
         <div className="infoOP">
           <div>OP</div>
-          {this.props.pendingOp ? this.props.pendingOp : " "}
+          {this.props.pendingOp}
         </div>
         <div>INPUT</div>
         {this.props.input}
@@ -106,7 +132,6 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     input: state.input,
     acc: state.acc,
@@ -118,7 +143,8 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     addDigit: addDigit,
     newOperation: newOperation,
-    equalOperation: equalOperation
+    equalOperation: equalOperation,
+    clearOperation: clearOperation,
     }, dispatch);
 }
 
