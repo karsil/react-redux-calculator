@@ -9,7 +9,7 @@ The device state consists of:
 - the current INPUT
 - an accumulator (ACC)
 - a pending operation (OP)
-- 
+
 But there are some pitfalls:
 - the ACC can be empty
 - the OP can be empty
