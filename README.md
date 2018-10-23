@@ -17,7 +17,8 @@ But there are some pitfalls:
 - the input should not contain leading 0s
 - C clears input, but if INPUT is initial value it clears ACC
 - division by 0
-- equal (=) only performs the pending operation on with INPUT and ACC • operators (+,-,*,/) behave differently, if ACC is empty
+- equal (=) only performs the pending operation on with INPUT and ACC
+- operators (+,-,*,/) behave differently, if ACC is empty
 
 ### Tasks
 Using React and Redux:
