@@ -1,5 +1,5 @@
 # React-Redux-Calculator
-This is my Lab Assignment for my course MI133 *Modern Web Development* an the FH Kiel in the winter term 2018/2019.
+This is a lab assignment for my course MI133 *Modern Web Development* at the Fachhochschule Kiel in the winter term 2018/2019.
 
 ## Requirements
 
