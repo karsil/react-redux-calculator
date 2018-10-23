@@ -2,24 +2,35 @@ import {ADD_DIGIT, NEW_OPERATION, EQUAL_OPERATION, CLEAR_OPERATION} from '../act
 
 
 export default function (state = {input: "", acc: null, pendingOp: null}, {type, payload}) {
+    
     switch (type) {
         case ADD_DIGIT: {
+            // append digit
             var newInput
             if(state.input === 0 || state.input === "ERROR" || state.input === "NaN"){
                 // When error has happened, replace info by user input
                 return {...state, input: payload.digit}
             }
             else if(payload.digit === "."){
-                newInput = state.input.toString()  + payload.digit
-                return {...state, input: newInput}
+                // add only one decimal point
+                if(state.input.toString().includes(".")){
+                    return state
+                }
+                else {
+                    // only one decimal point allowed
+                    newInput = state.input.toString()  + payload.digit
+                    return {...state, input: newInput}
+                }
             }
             else {
+                // append input to current input number
                 newInput = state.input.toString() + payload.digit
                 return {...state, input: newInput}
             }   
         }
 
         case NEW_OPERATION: {
+            console.log("NEW OPERATION")
             if (state.pendingOp){
                 // execute pending operation
                 return {
@@ -29,7 +40,7 @@ export default function (state = {input: "", acc: null, pendingOp: null}, {type,
                 }
             }
             else {
-                // save input to accumulator
+                // save input to accumulator for operation
                 return {
                     input: 0,
                     acc: state.input,
@@ -38,10 +49,14 @@ export default function (state = {input: "", acc: null, pendingOp: null}, {type,
             }
         }
         case EQUAL_OPERATION: {
+            console.log("EQUAL OPERATION")
             return executeOperationOnEqual(state)
         }        
         case CLEAR_OPERATION: {
+            console.log("CLEAR OPERATION")
             return {
+                // has two contextes
+                // only reset accumulator when input is already empty
                 input: 0,
                 acc: state.input ? state.acc : null,
                 pendingOp: state.input ? state.pendingOp : null
@@ -54,12 +69,24 @@ export default function (state = {input: "", acc: null, pendingOp: null}, {type,
 
 function executeOperationOnEqual(state = {input: "", acc: 0, pendingOp: "+"}) {
     console.log("executeOperationOnEqual with " + state.pendingOp)
-    var result = doOperation(state.acc, state.input, state.pendingOp)
-    return {
-        input: result,
-        acc: null,
-        pendingOp: null
-     }
+    console.log(state)
+    if(state.pendingOp){
+        // only execute operation if one is pending
+        console.log("execution")
+        var result = doOperation(state.acc, state.input, state.pendingOp)
+        return {
+            input: result,
+            acc: null,
+            pendingOp: null
+         }
+    }
+    else {
+        return {
+            input: state.input,
+            acc: null,
+            pendingOp: null
+            }
+    }
 }
 
 function doOperation(var1, var2, operation){
@@ -80,7 +107,7 @@ function doOperation(var1, var2, operation){
             result = divide(var1, var2)
             break;
         default:
-            result = 0
+            result = var2
             break;
     }
     console.log("op " + var1 + " " + operation + " " + var2 + " = " + result)

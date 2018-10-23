@@ -5,10 +5,36 @@ import {connect} from 'react-redux'
 import {addDigit, newOperation, equalOperation, clearOperation} from './actions/actions'
 
 class App extends Component {
+
+  // keyboard handler
   handleKeyPress = (event) => {
-    console.log(event.key)
+    const hitKey = event.key
+    const operators = ["+", "-", "*", "/"]
+
+    console.log(hitKey)
+    if (0 <= hitKey && hitKey <= 9){
+      console.log("handleKeyPress: number " + hitKey)
+      this.props.addDigit(hitKey)
+    }
+    else if (hitKey === "."){
+      console.log("handleKeyPress: point " + hitKey)
+      this.props.addDigit(hitKey)
+    }
+    else if(operators.includes(hitKey)){
+      console.log("handleKeyPress: operation " + hitKey)
+      this.props.newOperation(hitKey)
+    }
+    else if(hitKey === "=" || hitKey === "Enter"){
+      console.log("handleKeyPress: equal")
+      this.props.equalOperation()
+    }
+    else if(hitKey === "C" || hitKey === "c"){
+      console.log("handleKeyPress: clear")
+      this.props.clearOperation()
+    }
   }
 
+  // default case for unknown symbols for debugging purposes
   handleClick = target => {
     console.log('clicked ' + target)
   }
@@ -72,7 +98,6 @@ class App extends Component {
   }
 
   renderKeyPad = () => {
-    
     return (
       <div>
         <div className="board-row">
@@ -106,7 +131,7 @@ class App extends Component {
 
   renderInfoField = () => {
     return (
-      <div>
+      <div className="InfoField">
         <div className="infoACC">
           <div>ACC</div>
           {this.props.acc}
@@ -115,15 +140,18 @@ class App extends Component {
           <div>OP</div>
           {this.props.pendingOp}
         </div>
-        <div>INPUT</div>
-        {this.props.input}
+        <div>
+          <div className="infoInput">INPUT</div>
+          {this.props.input}
+        </div>
+
       </div>
     )
   }
 
   render() {
     return (
-      <div className="App">
+      <div className="App" onKeyPress={this.handleKeyPress} tabIndex="0">
        {this.renderInfoField()}
       {this.renderKeyPad()}
       </div>

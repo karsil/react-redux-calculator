@@ -13,12 +13,26 @@ code {
     monospace;
 }
 
+.InfoField {
+  
+  min-height: 70px;
+  
+  width: 300px;
+  
+}
+
 .infoACC {
   float: left;
   width: 50%;
+  min-height: 35px;
 }
 
 .infoOP {
-  float: left;
+  float: right;
   width: 50%;
+  min-height: 35px;
+}
+
+.infoInput {
+  min-height: 40px;
 }

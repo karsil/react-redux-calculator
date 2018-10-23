@@ -9,23 +9,9 @@ import { Provider } from 'react-redux'
 import App from './App';
 
 import reducers from './reducers/reducers'
-/*
-const allReducers = combineReducers({
-    //products: productsReducer,
-    //user: userReducer
-})
-*/
 
 const store = createStore(
     reducers,
-    /*
-    allReducers, 
-    {
-        input: 0,
-        acc: null,
-        pendingOp: null,
-    },
-    */
     window.devToolsExtension && window.devToolsExtension()
 )
 
