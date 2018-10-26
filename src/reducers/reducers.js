@@ -1,5 +1,6 @@
 import {ADD_DIGIT, NEW_OPERATION, EQUAL_OPERATION, CLEAR_OPERATION} from '../actions/actions'
 
+const DIVBYZERO = "DIV BY ZERO"
 
 export default function (state = {input: "", acc: null, pendingOp: null}, {type, payload}) {
     
@@ -31,11 +32,18 @@ export default function (state = {input: "", acc: null, pendingOp: null}, {type,
 
         case NEW_OPERATION: {
             console.log("NEW OPERATION")
-            if (state.pendingOp){
+            if (state.pendingOp && state.acc !== DIVBYZERO){
                 // execute pending operation
                 return {
                     input: 0,
                     acc: doOperation(state.acc, state.input, state.pendingOp),
+                    pendingOp: payload.operationType
+                }
+            }
+            else if (state.acc === DIVBYZERO){
+                return {
+                    input: 0,
+                    acc: state.input,
                     pendingOp: payload.operationType
                 }
             }
@@ -118,7 +126,7 @@ function divide(var1, var2){
     // special case for division by zero
     if(var2 === 0){
         console.log("division by zero! error")
-        return "ERROR"
+        return DIVBYZERO
     }
     else {
         return var1 / var2
