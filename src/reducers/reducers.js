@@ -32,16 +32,27 @@ export default function (state = {input: "", acc: null, pendingOp: null}, {type,
 
         case NEW_OPERATION: {
             console.log("NEW OPERATION")
+            if (state.input === 0 && payload.operationType === "-"){
+                // when user hits minus before entering a number, assume a negative number
+                return {
+                    ...state,
+                    input: 0,
+                    acc: state.acc,
+                    pendingOp: "-",
+                }
+            }
             if (state.pendingOp && state.acc !== DIVBYZERO){
                 // execute pending operation
                 return {
+                    ...state,
                     input: 0,
                     acc: doOperation(state.acc, state.input, state.pendingOp),
-                    pendingOp: payload.operationType
+                    pendingOp: payload.operationType,
                 }
             }
             else if (state.acc === DIVBYZERO){
                 return {
+                    ...state,
                     input: 0,
                     acc: state.input,
                     pendingOp: payload.operationType
@@ -50,6 +61,7 @@ export default function (state = {input: "", acc: null, pendingOp: null}, {type,
             else {
                 // save input to accumulator for operation
                 return {
+                    ...state,
                     input: 0,
                     acc: state.input,
                     pendingOp: payload.operationType
@@ -65,6 +77,7 @@ export default function (state = {input: "", acc: null, pendingOp: null}, {type,
             return {
                 // has two contextes
                 // only reset accumulator when input is already empty
+                ...state,
                 input: 0,
                 acc: state.input ? state.acc : null,
                 pendingOp: state.input ? state.pendingOp : null
@@ -83,6 +96,7 @@ function executeOperationOnEqual(state = {input: "", acc: 0, pendingOp: "+"}) {
         console.log("execution")
         var result = doOperation(state.acc, state.input, state.pendingOp)
         return {
+            ...state,
             input: result,
             acc: null,
             pendingOp: null
@@ -90,6 +104,7 @@ function executeOperationOnEqual(state = {input: "", acc: 0, pendingOp: "+"}) {
     }
     else {
         return {
+            ...state,
             input: state.input,
             acc: null,
             pendingOp: null
